@@ -8,14 +8,14 @@ use crate::execute_command::execute_command;
 use crate::list_script_files::list_script_files;
 
 use std::io::stdout;
-use std::process::Command;
+
 use std::io;
 use tui::Terminal;
 use tui::backend::CrosstermBackend;
 use tui::widgets::{Block, Borders, List, ListItem};
 use tui::style::{Style, Modifier, Color};
 use crossterm::{execute, terminal::{self, ClearType}, event::{self, Event, KeyCode}};
-use std::fs;
+
 
 fn main() -> Result<(), io::Error> {
     let scripts = list_script_files("scripts")?;
