@@ -6,7 +6,9 @@
 This is a Rust-based Terminal User Interface (TUI) application using the ratatui and crossterm libraries. It dynamically creates a menu to execute .sh scripts from a specified directory, offering a straightforward and interactive script-running experience.
 Prerequisites
 
-    Rust Programming Language: Ensure you have Rust installed on your system. If not, you can install it from the official Rust website.
+- Rust Programming Language:
+    
+    Ensure you have Rust installed on your system. If not, you can install it from the official Rust website.
 
 ## Setup
 
@@ -66,8 +68,8 @@ This tool is an excellent choice for users who regularly interact with shell scr
 Move the Executable to a Bin Directory:
     First, you need to move the hao executable to a directory that is in your system's PATH. Common choices are /usr/local/bin or ~/bin. If ~/bin does not exist, you can create it and add it to your PATH.
 
-    Creating ~/bin and Adding to PATH (if necessary):
-        Create a bin directory in your home directory:
+Creating ~/bin and Adding to PATH (if necessary):
+    Create a bin directory in your home directory:
 
 ```sh
     mkdir ~/bin
@@ -90,7 +92,7 @@ Apply the changes (or restart your terminal):
     Move the hao executable to the chosen bin directory. If using /usr/local/bin, you might need sudo:
 
 ```sh
-mv ./target/release/hao /usr/local/bin
+    mv ./target/release/hao /usr/local/bin
 ```
 
 or for ~/bin:
