@@ -1,1 +1,0 @@
-source disable_proxy.sh

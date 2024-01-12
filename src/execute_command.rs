@@ -1,6 +1,6 @@
 use std::io;
 use std::process::Command;
-use crossterm::event::{self, Event, KeyCode};
+
 
 pub fn execute_command(script_name: &str) -> Result<String, io::Error> {
     // Construct the path to the script

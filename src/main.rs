@@ -17,9 +17,21 @@ use tui::layout::{Layout, Constraint, Direction};
 use tui::text::{Spans, Span};
 use tui::widgets::ListState;
 use crossterm::{execute, terminal::{self, ClearType}, event::{self, Event, KeyCode}};
+use std::env;
 
 fn main() -> Result<(), io::Error> {
-    let scripts = list_script_files("scripts")?;
+    let args: Vec<String> = env::args().collect();
+
+    // Check if a script folder path is provided
+    if args.len() < 2 {
+        eprintln!("Error: Please specify a path to the script folder.");
+        return Ok(()); // Exit the program
+    }
+
+    // Use the provided folder path
+    let script_folder_path = &args[1];
+    let scripts = list_script_files(script_folder_path)?;
+
     let mut choices = scripts;
     choices.push("Exit".to_string());
 
@@ -29,8 +41,11 @@ fn main() -> Result<(), io::Error> {
     terminal::enable_raw_mode()?;
 
     let mut current_selection = 0;
-    let mut scroll: u16 = 0;
+    let _scroll: u16 = 0;
     let mut output_log = String::new();
+
+    // Clear the terminal at the beginning of each loop iteration
+    execute!(terminal.backend_mut(), terminal::Clear(ClearType::All))?;
 
     loop {
         terminal.draw(|f| {
