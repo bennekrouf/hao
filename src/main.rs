@@ -3,12 +3,16 @@ extern crate crossterm;
 
 pub mod execute_command;
 pub mod list_script_files;
+pub mod log_and_display_message;
+pub mod error;
+pub mod process_script_folder;
 
-use crate::execute_command::execute_command;
-use crate::list_script_files::list_script_files;
+use execute_command::execute_command;
+use list_script_files::list_script_files;
+use process_script_folder::process_script_folder;
 
+use std::error::Error;
 use std::io::stdout;
-use std::io;
 use tui::Terminal;
 use tui::backend::CrosstermBackend;
 use tui::widgets::{Block, Borders, List, ListItem, Paragraph, Wrap};
@@ -19,9 +23,12 @@ use tui::widgets::ListState;
 use crossterm::{execute, terminal::{self, ClearType}, event::{self, Event, KeyCode}};
 use std::env;
 
-fn main() -> Result<(), io::Error> {
-    let args: Vec<String> = env::args().collect();
+fn construct_log_message(expected_folder_path: &str) -> String {
+    format!("Expected scripts folder location:\n{}", expected_folder_path)
+}
 
+fn main() -> Result<(), Box<dyn Error>> {
+    let args: Vec<String> = env::args().collect();
     // Check if a script folder path is provided
     if args.len() < 2 {
         eprintln!("Error: Please specify a path to the script folder.");
@@ -30,6 +37,9 @@ fn main() -> Result<(), io::Error> {
 
     // Use the provided folder path
     let script_folder_path = &args[1];
+
+    process_script_folder(script_folder_path)?;
+
     let scripts = list_script_files(script_folder_path)?;
 
     let mut choices = scripts;
@@ -99,7 +109,7 @@ fn main() -> Result<(), io::Error> {
                         if choices[current_selection] == "Exit" {
                             break;
                         } else {
-                            output_log = execute_command(&choices[current_selection])?;
+                            output_log = execute_command(&choices[current_selection], script_folder_path)?;
                         }
                     }
                     _ => {}
